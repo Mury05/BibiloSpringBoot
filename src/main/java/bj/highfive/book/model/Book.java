@@ -1,5 +1,6 @@
 package bj.highfive.book.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -11,47 +12,23 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import lombok.Data;
 
 @Entity
 @Table(name = "books")
+@Data
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
     private String isbn;
-    private LocalDateTime published_at;
+    private LocalDate published_at;
 
     @ManyToMany
     @JoinTable(name = "author_book",
     joinColumns = @JoinColumn(name = "book_id"),
     inverseJoinColumns = @JoinColumn(name = "author_id")
     )
-    private Set<Author> authors;
-
-    public LocalDateTime getPublished_at() {
-        return published_at;
-    }
-    public void setPublished_at(LocalDateTime published_at) {
-        this.published_at = published_at;
-    }
-    public String getIsbn() {
-        return isbn;
-    }
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
-    }
-    public String getTitle() {
-        return title;
-    }
-    public void setTitle(String title) {
-        this.title = title;
-    }
-    public Long getId() {
-        return id;
-    }
-    public void setId(Long id) {
-        this.id = id;
-    }
-    
+    private Set<Author> authors;    
 }
