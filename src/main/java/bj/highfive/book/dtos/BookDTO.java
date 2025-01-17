@@ -1,6 +1,5 @@
 package bj.highfive.book.dtos;
 
-import java.time.LocalDate;
 
 public class BookDTO {
     private Long id;

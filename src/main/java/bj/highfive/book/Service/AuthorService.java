@@ -1,5 +1,6 @@
 package bj.highfive.book.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,8 +18,16 @@ public class AuthorService {
     @Autowired
     private AuthorRepository authorRepository;
 
-    public List<Author> getAllAuthors(){
-        return authorRepository.findAll();
+    public List<AuthorDTO> getAllAuthors(){
+        List<Author> authors= authorRepository.findAll();
+        List<AuthorDTO> authorsDTO = new ArrayList<>();
+
+        for(Author author : authors){
+            AuthorDTO authorDTO = AuthorMapper.toDTO(author);
+            authorsDTO.add(authorDTO);
+        }
+
+        return authorsDTO;
     }
 
      public Author newAuthor(Author author) {
