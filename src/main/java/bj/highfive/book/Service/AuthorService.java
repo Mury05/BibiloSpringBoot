@@ -1,11 +1,14 @@
 package bj.highfive.book.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import bj.highfive.book.dtos.AuthorDTO;
+import bj.highfive.book.mapper.AuthorMapper;
 import bj.highfive.book.model.Author;
 import bj.highfive.book.repository.AuthorRepository;
 
@@ -22,8 +25,10 @@ public class AuthorService {
         return authorRepository.save(author);
     }
 
-    public Author getAuthor(Long id) {
-        return authorRepository.findById(id).orElse(null);
+    public AuthorDTO getAuthor(Long id) {
+        Optional<Author> authorOptional = authorRepository.findById(id);
+        Author author= authorOptional.get();
+        return  AuthorMapper.toDTO(author);
     }
 
     public void deleteAuthor(Long id) {

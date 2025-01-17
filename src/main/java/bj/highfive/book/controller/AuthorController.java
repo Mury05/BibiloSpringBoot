@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import bj.highfive.book.Service.AuthorService;
+import bj.highfive.book.dtos.AuthorDTO;
 import bj.highfive.book.model.Author;
 
 @RestController
@@ -41,7 +42,7 @@ public class AuthorController {
     }
 
     @GetMapping("/{id}")
-    public Author getAuthorById(@PathVariable("id") Long authorId) {
+    public AuthorDTO getAuthorById(@PathVariable("id") Long authorId) {
         return authorService.getAuthor(authorId);
     }
 
