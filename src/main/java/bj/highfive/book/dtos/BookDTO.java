@@ -6,12 +6,10 @@ public class BookDTO {
     private Long id;
     private String title;
     private String isbn;
-    private LocalDate published_at;
-    public BookDTO(Long id, String title, String isbn, LocalDate published_at) {
+    public BookDTO(Long id, String title, String isbn) {
         this.id = id;
         this.title = title;
         this.isbn = isbn;
-        this.published_at = published_at;
     }
     public Long getId() {
         return id;
@@ -31,12 +29,5 @@ public class BookDTO {
     public void setIsbn(String isbn) {
         this.isbn = isbn;
     }
-    public LocalDate getPublished_at() {
-        return published_at;
-    }
-    public void setPublished_at(LocalDate published_at) {
-        this.published_at = published_at;
-    } 
-    
-    
+       
 }

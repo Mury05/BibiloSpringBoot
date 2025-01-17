@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import bj.highfive.book.Service.BookService;
 import bj.highfive.book.model.Book;
+import bj.highfive.book.dtos.BookDTO;
+
 
 @RestController
 @RequestMapping("/books")
@@ -38,7 +40,7 @@ public class BookController {
     }
 
     @GetMapping("/{id}")
-    public Book getBookById(@PathVariable("id") Long bookId){
+    public BookDTO getBookById(@PathVariable("id") Long bookId){
         
         return bookService.getBook(bookId);
     }
