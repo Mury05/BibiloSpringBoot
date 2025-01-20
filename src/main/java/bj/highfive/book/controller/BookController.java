@@ -29,7 +29,7 @@ public class BookController {
     List<String> allBooks = new ArrayList<>();
 
     @GetMapping("")
-    public List<Book> getAllBooks() {
+    public List<BookDTO> getAllBooks() {
         return bookService.getAllBooks();
     }
 

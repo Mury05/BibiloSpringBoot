@@ -1,6 +1,7 @@
 package bj.highfive.book.Service;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,12 +19,19 @@ public class BookService {
     private BookRepository bookRepository;
 
     // Ajouter
-    public Book newBook(Book book) {
+    public Book newBook(Book book) {        
         return bookRepository.save(book);
     }
 
-    public List<Book> getAllBooks() {
-        return bookRepository.findAll();
+    public List<BookDTO> getAllBooks() {
+        List<Book> books = bookRepository.findAll();
+        List<BookDTO> booksDTO = new ArrayList<>();
+
+        for(Book book : books){
+            BookDTO bookDTO = BookMapper.toDTO(book);
+            booksDTO.add(bookDTO);
+        }
+        return booksDTO;
     }
 
     public BookDTO getBook(Long id) {
