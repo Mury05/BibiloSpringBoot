@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import bj.highfive.book.Service.BookService;
 import bj.highfive.book.model.Book;
+import jakarta.validation.Valid;
 import bj.highfive.book.dtos.BookDTO;
+import bj.highfive.book.dtos.CreateBookDTO;
 
 
 @RestController
@@ -34,7 +36,11 @@ public class BookController {
     }
 
     @PostMapping("")
-    public String addBook(@RequestBody Book book){
+    public String addBook(@Valid @RequestBody CreateBookDTO createBookDTO){
+        Book book = new Book();
+        book.setTitle(createBookDTO.getTitle());
+        book.setIsbn(createBookDTO.getIsbn());
+        book.setPublished_at(createBookDTO.getPublished_at());
         bookService.newBook(book);
         return "Livre enregistré avec succès !";
     }
