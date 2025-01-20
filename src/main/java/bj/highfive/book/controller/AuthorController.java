@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import bj.highfive.book.Service.AuthorService;
 import bj.highfive.book.dtos.AuthorDTO;
+import bj.highfive.book.dtos.CreateAuthorDTO;
 import bj.highfive.book.model.Author;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/authors")
@@ -30,8 +32,9 @@ public class AuthorController {
     }
 
     @PostMapping("")
-    public ResponseEntity<String> addAuthor(@RequestBody Author author) {
+    public ResponseEntity<String> addAuthor(@Valid @RequestBody CreateAuthorDTO createAuthorDTO) {
         try {
+            Author author = new Author(createAuthorDTO.getNom(), createAuthorDTO.getPrenom(), createAuthorDTO.getNationalite());
             authorService.newAuthor(author);
             return new ResponseEntity<>("Auteur enregistré avec succès !", HttpStatus.CREATED);
         } catch (Exception e) {
