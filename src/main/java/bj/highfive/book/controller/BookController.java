@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import bj.highfive.book.Service.AuthorService;
 import bj.highfive.book.Service.BookService;
 import bj.highfive.book.model.Book;
 import jakarta.validation.Valid;
@@ -28,6 +29,10 @@ public class BookController {
 
     @Autowired
     private BookService bookService;
+
+    @Autowired
+    private AuthorService authorService;
+    
     // private String allBooks = {};
     List<String> allBooks = new ArrayList<>();
 
@@ -50,6 +55,7 @@ public class BookController {
         book.setIsbn(createBookDTO.getIsbn());
         book.setPublished_at(createBookDTO.getPublished_at());
         bookService.newBook(book);
+        Set<Author> authors = new HashSet<>();
         return "Livre enregistré avec succès !";
     }
 
