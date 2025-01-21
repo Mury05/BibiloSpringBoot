@@ -1,5 +1,7 @@
 package bj.highfive.book.dtos;
 
+import java.util.Set;
+
 import jakarta.validation.constraints.NotNull;
 
 
@@ -12,6 +14,16 @@ public class CreateAuthorDTO {
     private String prenom;
     @NotNull(message = "La nationalité de l'auteur est requise !")
     private String nationalite;
+
+    Set<Long> livreID;
+
+    public Set<Long> getLivreID() {
+        return livreID;
+    }
+
+    public void setLivreID(Set<Long> livreID) {
+        this.livreID = livreID;
+    }
 
     public String getNom() {
         return nom;

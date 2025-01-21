@@ -19,6 +19,7 @@ import bj.highfive.book.model.Book;
 import jakarta.validation.Valid;
 import bj.highfive.book.dtos.BookDTO;
 import bj.highfive.book.dtos.CreateBookDTO;
+import bj.highfive.book.mapper.BookMapper;
 
 
 @RestController
@@ -32,7 +33,14 @@ public class BookController {
 
     @GetMapping("")
     public List<BookDTO> getAllBooks() {
-        return bookService.getAllBooks();
+        List<Book> books =  bookService.getAllBooks();
+        List<BookDTO> booksDTO = new ArrayList<>();
+
+        for(Book book : books){
+            BookDTO bookDTO = BookMapper.toDTO(book);
+            booksDTO.add(bookDTO);
+        }
+        return booksDTO;
     }
 
     @PostMapping("")
@@ -48,7 +56,7 @@ public class BookController {
     @GetMapping("/{id}")
     public BookDTO getBookById(@PathVariable("id") Long bookId){
         
-        return bookService.getBook(bookId);
+        return BookMapper.toDTO(bookService.getBook(bookId));
     }
 
     @DeleteMapping("/{id}")

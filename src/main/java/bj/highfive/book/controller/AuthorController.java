@@ -1,6 +1,10 @@
 package bj.highfive.book.controller;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,9 +19,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import bj.highfive.book.Service.AuthorService;
+import bj.highfive.book.Service.BookService;
 import bj.highfive.book.dtos.AuthorDTO;
 import bj.highfive.book.dtos.CreateAuthorDTO;
+import bj.highfive.book.mapper.AuthorMapper;
 import bj.highfive.book.model.Author;
+import bj.highfive.book.model.Book;
 import jakarta.validation.Valid;
 
 @RestController
@@ -25,17 +32,36 @@ import jakarta.validation.Valid;
 public class AuthorController {
     @Autowired
     private AuthorService authorService;
+    @Autowired
+    private BookService bookService;
 
     @GetMapping("")
     public List<AuthorDTO> getAllAuthors() {
-        return authorService.getAllAuthors();
+        List<Author> authors= authorService.getAllAuthors();
+        List<AuthorDTO> authorsDTO = new ArrayList<>();
+
+        for(Author author : authors){
+            AuthorDTO authorDTO = AuthorMapper.toDTO(author);
+            authorsDTO.add(authorDTO);
+        }
+
+        return authorsDTO;
     }
 
     @PostMapping("")
     public ResponseEntity<String> addAuthor(@Valid @RequestBody CreateAuthorDTO createAuthorDTO) {
         try {
-            Author author = new Author(createAuthorDTO.getNom(), createAuthorDTO.getPrenom(), createAuthorDTO.getNationalite());
+            Author author = new Author();
+            author.setNom(createAuthorDTO.getNom());
+            author.setPrenom(createAuthorDTO.getPrenom());
+            author.setNationalite(createAuthorDTO.getNationalite());
             authorService.newAuthor(author);
+            Set<Book> books = new HashSet<>();
+
+            for(Long id : createAuthorDTO.getLivreID()){
+                books.add(bookService.getBook(id));
+            }
+            author.setBooks(books);
             return new ResponseEntity<>("Auteur enregistré avec succès !", HttpStatus.CREATED);
         } catch (Exception e) {
             return ResponseEntity.status(500).body(e.getMessage());
@@ -44,7 +70,7 @@ public class AuthorController {
 
     @GetMapping("/{id}")
     public AuthorDTO getAuthorById(@PathVariable("id") Long authorId) {
-        return authorService.getAuthor(authorId);
+        return  AuthorMapper.toDTO(authorService.getAuthor(authorId));
     }
 
     @DeleteMapping("/{id}")

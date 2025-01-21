@@ -1,9 +1,7 @@
 package bj.highfive.book.Service;
 
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,8 +9,6 @@ import org.springframework.stereotype.Service;
 import bj.highfive.book.model.Book;
 import bj.highfive.book.repository.BookRepository;
 import org.springframework.beans.BeanUtils;
-import bj.highfive.book.dtos.BookDTO;
-import bj.highfive.book.mapper.BookMapper;
 @Service
 public class BookService {
     @Autowired
@@ -23,21 +19,12 @@ public class BookService {
         return bookRepository.save(book);
     }
 
-    public List<BookDTO> getAllBooks() {
-        List<Book> books = bookRepository.findAll();
-        List<BookDTO> booksDTO = new ArrayList<>();
-
-        for(Book book : books){
-            BookDTO bookDTO = BookMapper.toDTO(book);
-            booksDTO.add(bookDTO);
-        }
-        return booksDTO;
+    public List<Book> getAllBooks() {
+        return bookRepository.findAll();
     }
 
-    public BookDTO getBook(Long id) {
-        Optional<Book> bookOptional = bookRepository.findById(id);
-        Book book = bookOptional.get();
-        return BookMapper.toDTO(book);
+    public Book getBook(Long id) {
+        return  bookRepository.findById(id).get();
     }
 
     public void deleteBook(Long id) {

@@ -18,26 +18,16 @@ public class AuthorService {
     @Autowired
     private AuthorRepository authorRepository;
 
-    public List<AuthorDTO> getAllAuthors(){
-        List<Author> authors= authorRepository.findAll();
-        List<AuthorDTO> authorsDTO = new ArrayList<>();
-
-        for(Author author : authors){
-            AuthorDTO authorDTO = AuthorMapper.toDTO(author);
-            authorsDTO.add(authorDTO);
-        }
-
-        return authorsDTO;
+    public List<Author> getAllAuthors(){
+        return authorRepository.findAll();
     }
 
      public Author newAuthor(Author author) {
         return authorRepository.save(author);
     }
 
-    public AuthorDTO getAuthor(Long id) {
-        Optional<Author> authorOptional = authorRepository.findById(id);
-        Author author= authorOptional.get();
-        return  AuthorMapper.toDTO(author);
+    public Author getAuthor(Long id) {
+        return  authorRepository.findById(id).get();
     }
 
     public void deleteAuthor(Long id) {

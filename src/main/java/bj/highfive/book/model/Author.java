@@ -25,12 +25,6 @@ public class Author {
     
     @ManyToMany(mappedBy = "authors")
     private Set<Book> books;
-
-    public Author(String nom, String prenom, String nationalite) {
-        this.nom = nom;
-        this.prenom = prenom;
-        this.nationalite = nationalite;
-    }
     
         // @Transient
         // private Integer age;
